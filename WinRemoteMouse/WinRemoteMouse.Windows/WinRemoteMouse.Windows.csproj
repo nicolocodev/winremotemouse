@@ -139,7 +139,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WinRemoteMouse.Common\WinRemoteMouse.Common.csproj">
+    <ProjectReference Include="..\WinRemoteMouse.Common\WinRemoteMouse.Common.csproj">
       <Project>{5aa99d41-7d11-4440-b3dd-cb6f8c035b12}</Project>
       <Name>WinRemoteMouse.Common</Name>
     </ProjectReference>

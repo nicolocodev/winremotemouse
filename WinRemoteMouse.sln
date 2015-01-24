@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".doc", ".doc", "{4BACBD90-7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRemoteMouse.Server", "WinRemoteMouse\WinRemoteMouse.Server\WinRemoteMouse.Server.csproj", "{B0AF6C10-901C-40CB-9E7B-F06FF79980DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRemoteMouse.Common", "WinRemoteMouse.Common\WinRemoteMouse.Common.csproj", "{5AA99D41-7D11-4440-B3DD-CB6F8C035B12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRemoteMouse.Common", "WinRemoteMouse\WinRemoteMouse.Common\WinRemoteMouse.Common.csproj", "{5AA99D41-7D11-4440-B3DD-CB6F8C035B12}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
