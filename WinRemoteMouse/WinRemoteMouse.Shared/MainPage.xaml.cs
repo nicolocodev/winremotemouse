@@ -1,36 +1,18 @@
 ﻿using System;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth.Rfcomm;
 using Windows.Devices.Enumeration;
-using Windows.Foundation;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
+using WinRemoteMouse.Common;
 
 namespace WinRemoteMouse
 {
-    internal static class MisExtensiones
-    {
-        public static IObservable<TResult> WithPrevious<TSource, TResult>(this IObservable<TSource> source, Func<TSource, TSource, TResult> projection)
-        {
-            return source.Scan(Tuple.Create(default(TSource), default(TSource)),
-                               (previous, current) => Tuple.Create(previous.Item2, current))
-                         .Select(t => projection(t.Item1, t.Item2));
-        }
-    }
-
-
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage
     {
-        private static readonly Guid RfcommChatServiceUuid = Guid.Parse("87240836-54AF-41F8-A881-09F06364EEFC");
-
-
         private StreamSocket _socket;
         private DataWriter _chatWriter;
         private RfcommDeviceService _service;
@@ -61,7 +43,7 @@ namespace WinRemoteMouse
                              {
                                  var x = obj.CurrentPoint.X.CompareTo(obj.PreviousPoint.X);
                                  var y = obj.CurrentPoint.Y.CompareTo(obj.PreviousPoint.Y);
-                                 var msg = string.Format("Type:{0};X:{1};Y:{2};", "Move", x, y);
+                                 var msg = string.Format("Type:{0};X:{1};Y:{2};", CommandType.Move, x, y);
                                  _chatWriter.WriteUInt32((uint)msg.Length);
                                  _chatWriter.WriteString(msg);
                                  await _chatWriter.StoreAsync();
@@ -73,7 +55,7 @@ namespace WinRemoteMouse
 
         private async void RightButtonOnClick(object sender, RoutedEventArgs e)
         {
-            var msg = string.Format("Type:{0};", "RClick");
+            var msg = string.Format("Type:{0};", CommandType.RClick);
             _chatWriter.WriteUInt32((uint)msg.Length);
             _chatWriter.WriteString(msg);
             await _chatWriter.StoreAsync();
@@ -81,7 +63,7 @@ namespace WinRemoteMouse
 
         private async void LeftButtonOnClick(object sender, RoutedEventArgs e)
         {
-            var msg = string.Format("Type:{0};", "LClick");
+            var msg = string.Format("Type:{0};", CommandType.Lclick);
             _chatWriter.WriteUInt32((uint)msg.Length);
             _chatWriter.WriteString(msg);
             await _chatWriter.StoreAsync();
@@ -90,7 +72,7 @@ namespace WinRemoteMouse
         private async Task<bool> StartMouse()
         {
             _serviceInfoCollection = await DeviceInformation.FindAllAsync(
-                RfcommDeviceService.GetDeviceSelector(RfcommServiceId.FromUuid(RfcommChatServiceUuid)));
+                RfcommDeviceService.GetDeviceSelector(RfcommServiceId.FromUuid(Constants.RfcommChatServiceUuid)));
 
             if (_serviceInfoCollection.Count <= 0) return false;
             var chatServiceInfo = _serviceInfoCollection[0];
